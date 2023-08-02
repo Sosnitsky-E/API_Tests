@@ -1,0 +1,585 @@
+{
+	"info": {
+		"_postman_id": "403ddd5e-bb56-419a-bbed-55ec383501dc",
+		"name": "Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25989493"
+	},
+	"item": [
+		{
+			"name": "Negative tests",
+			"item": [
+				{
+					"name": "add_project- body absent or ampty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 400ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{api}}/add_project",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"add_project"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{pessword}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{user_name}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Positive tests",
+			"item": [
+				{
+					"name": "get_projects- progects do not exist Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 450ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(450);\r",
+									"});\r",
+									"\r",
+									"var size = pm.response.json().size\r",
+									"console.log(size)\r",
+									"pm.collectionVariables.set(\"projects_number\", size);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{api}}/get_projects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"get_projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_project- valid name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 450ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(450);\r",
+									"});\r",
+									"\r",
+									"var responseJson = pm.response.json()\r",
+									"var projectId = responseJson.id\r",
+									"console.log(\"project Id : \" + projectId)\r",
+									"pm.collectionVariables.set(\"project_id\", projectId);\r",
+									"\r",
+									"pm.test(pm.iterationData.get(\"Case_project_name\"), function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(pm.iterationData.get(\"name\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(pm.iterationData.get(\"Case_announcement\"), function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.announcement).to.eql(pm.iterationData.get(\"announcement\"));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(pm.iterationData.get(\"Case_show_announcement\"), function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(String(jsonData.show_announcement)).to.eql(pm.iterationData.get(\"show_announcement\"));\r",
+									"\r",
+									"});\r",
+									"if(pm.iterationData.get(\"suite_mode\") == \"\"){\r",
+									"    pm.test(pm.iterationData.get(\"Case suite_mode\"), function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.suite_mode).to.eql(3);\r",
+									"\r",
+									"    });\r",
+									"}else{\r",
+									"    pm.test(pm.iterationData.get(\"Case suite_mode\"), function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.suite_mode).to.eql(pm.iterationData.get(\"suite_mode\"));\r",
+									"\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"{{name}}\",\r\n    \"announcement\":\"{{announcement}}\",\r\n    \"show_announcement\":{{show_announcement}},\r\n    \"suite_mode\":\"{{suite_mode}}\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{api}}/add_project",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"add_project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_projects- progects do not exist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 410ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(410);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test new project created\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.size).to.eql(pm.collectionVariables.get(\"projects_number\") + 1);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{api}}/get_projects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"get_projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 400ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+									"});\r",
+									"pm.test(\"Test name of the project\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"updated project name\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"updated project name\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/{{api}}/update_project/{{project_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"update_project",
+								"{{project_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_project",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/{{api}}/get_project/{{project_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"get_project",
+								"{{project_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"   \r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/{{api}}/delete_project/{{project_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"delete_project",
+								"{{project_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_project Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"   \r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/{{api}}/delete_project/111",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"delete_project",
+								"111"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_project- valid name Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 400ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+									"});\r",
+									"\r",
+									"var responseJson = pm.response.json()\r",
+									"var projectId = responseJson.id\r",
+									"console.log(\"project Id : \" + projectId)\r",
+									"pm.collectionVariables.set(\"project_id\", projectId);\r",
+									"\r",
+									"pm.test(\"Test new project name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(pm.iterationData.get(\"name\"));\r",
+									"});\r",
+									"\r",
+									"console.log(pm.iterationData.get(\"announcement\"))\r",
+									"\r",
+									"    pm.test(\"Test announcement value\", function (){\r",
+									"        var jsonData = pm.expect(String(jsonData.announcement)).to.eql(pm.iterationData.get(\"announcement\"))\r",
+									"    })\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"name\",\r\n    \"announcement\":\"Nam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortor Nam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortor\",\r\n    \"show_announcement\":true,\r\n    \"suite_mode\":1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{api}}/add_project",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"add_project"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{pessword}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{user_name}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "user_name",
+			"value": "ezhgfnwy@exelica.com",
+			"type": "string"
+		},
+		{
+			"key": "pessword",
+			"value": "Test123!",
+			"type": "string"
+		},
+		{
+			"key": "project_id",
+			"value": ""
+		},
+		{
+			"key": "show_announcement",
+			"value": ""
+		},
+		{
+			"key": "show_announcement1",
+			"value": ""
+		},
+		{
+			"key": "projects_number",
+			"value": ""
+		}
+	]
+}
