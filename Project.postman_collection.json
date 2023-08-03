@@ -99,7 +99,7 @@
 			"name": "Positive tests",
 			"item": [
 				{
-					"name": "get_projects- progects do not exist Copy",
+					"name": "get_projects",
 					"event": [
 						{
 							"listen": "test",
@@ -137,7 +137,7 @@
 					"response": []
 				},
 				{
-					"name": "add_project- valid name",
+					"name": "add_project",
 					"event": [
 						{
 							"listen": "test",
@@ -224,7 +224,7 @@
 					"response": []
 				},
 				{
-					"name": "get_projects- progects do not exist",
+					"name": "get_projects",
 					"event": [
 						{
 							"listen": "test",
@@ -276,10 +276,33 @@
 									"pm.test(\"Response time is less than 400ms\", function () {\r",
 									"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
 									"});\r",
-									"pm.test(\"Test name of the project\", function () {\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(pm.iterationData.get(\"Case_update_project_name\"), function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.name).to.eql(\"updated project name\");\r",
-									"});"
+									"    pm.expect(jsonData.name).to.eql(pm.iterationData.get(\"update_name\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(pm.iterationData.get(\"Case_update_announcement\"), function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.announcement).to.eql(pm.iterationData.get(\"update_announcement\"));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(pm.iterationData.get(\"Case_update_show_announcement\"), function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(String(jsonData.show_announcement)).to.eql(pm.iterationData.get(\"change_show_announcement\"));\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(pm.iterationData.get(\"Case_update_suite_mode\"), function () {\r",
+									"var jsonData = pm.response.json();\r",
+									" pm.expect(jsonData.suite_mode).to.eql(pm.iterationData.get(\"change_suite_mode\"));\r",
+									"\r",
+									"});\r",
+									"\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -296,7 +319,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"updated project name\"\r\n}"
+							"raw": "{\r\n    \"name\":\"{{update_name}}\",\r\n    \"announcement\":\"{{update_announcement}}\",\r\n    \"show_announcement\":{{change_show_announcement}},\r\n    \"suite_mode\":\"{{change_suite_mode}}\"\r\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/{{api}}/update_project/{{project_id}}",
@@ -491,6 +514,78 @@
 							"path": [
 								"{{api}}",
 								"add_project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_project Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 400ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(pm.iterationData.get(\"Case_update_project_name\"), function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(pm.iterationData.get(\"update_name\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(pm.iterationData.get(\"Case_update_announcement\"), function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.announcement).to.eql(pm.iterationData.get(\"update_announcement\"));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(pm.iterationData.get(\"Case_update_show_announcement\"), function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(String(jsonData.show_announcement)).to.eql(pm.iterationData.get(\"change_show_announcement\"));\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(pm.iterationData.get(\"Case_update_suite_mode\"), function () {\r",
+									"var jsonData = pm.response.json();\r",
+									" pm.expect(jsonData.suite_mode).to.eql(pm.iterationData.get(\"change_suite_mode\"));\r",
+									"\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"desgfd\",\r\n    \"announcement\":\"\",\r\n    \"show_announcement\":false,\r\n    \"suite_mode\": 2\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/{{api}}/update_project/131",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"update_project",
+								"131"
 							]
 						}
 					},
