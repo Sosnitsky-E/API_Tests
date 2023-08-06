@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "403ddd5e-bb56-419a-bbed-55ec383501dc",
+		"_postman_id": "45ee5d20-16b4-4dc0-b1c8-ec7a1e302eea",
 		"name": "Project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "25989493"
@@ -233,8 +233,8 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(\"Response time is less than 410ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(410);\r",
+									"pm.test(\"Response time is less than 450ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(450);\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Test new project created\", function () {\r",
@@ -276,9 +276,8 @@
 									"pm.test(\"Response time is less than 400ms\", function () {\r",
 									"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
 									"});\r",
-									"\r",
-									"\r",
-									"\r",
+									" \r",
+									" \r",
 									"pm.test(pm.iterationData.get(\"Case_update_project_name\"), function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.name).to.eql(pm.iterationData.get(\"update_name\"));\r",
@@ -301,6 +300,9 @@
 									" pm.expect(jsonData.suite_mode).to.eql(pm.iterationData.get(\"change_suite_mode\"));\r",
 									"\r",
 									"});\r",
+									"\r",
+									"var responseJson = pm.response.json();\r",
+									"pm.collectionVariables.set(\"update_data\", responseJson);\r",
 									"\r",
 									""
 								],
@@ -337,6 +339,28 @@
 				},
 				{
 					"name": "get_project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 450ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(450);\r",
+									"});\r",
+									"\r",
+									"var responceJson = pm.response.json()\r",
+									"pm.test(\"get_project responce verification\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.eql(pm.collectionVariables.get(\"update_data\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -370,6 +394,9 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
+									"pm.test(\"Response time is less than 450ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(450);\r",
+									"});\r",
 									"   \r",
 									""
 								],
@@ -401,33 +428,30 @@
 					"response": []
 				},
 				{
-					"name": "delete_project Copy",
+					"name": "get_project",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
 									"});\r",
-									"   \r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
+									"pm.test(\"Response time is less than 450ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(450);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Checking if the project is deleted\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.error).to.eql(\"Field :project_id is not a valid or accessible project.\");\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -436,156 +460,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/{{api}}/delete_project/111",
+							"raw": "{{base_url}}/{{api}}/get_project/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"{{api}}",
-								"delete_project",
-								"111"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "add_project- valid name Copy",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test(\"Response time is less than 400ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
-									"});\r",
-									"\r",
-									"var responseJson = pm.response.json()\r",
-									"var projectId = responseJson.id\r",
-									"console.log(\"project Id : \" + projectId)\r",
-									"pm.collectionVariables.set(\"project_id\", projectId);\r",
-									"\r",
-									"pm.test(\"Test new project name\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.name).to.eql(pm.iterationData.get(\"name\"));\r",
-									"});\r",
-									"\r",
-									"console.log(pm.iterationData.get(\"announcement\"))\r",
-									"\r",
-									"    pm.test(\"Test announcement value\", function (){\r",
-									"        var jsonData = pm.expect(String(jsonData.announcement)).to.eql(pm.iterationData.get(\"announcement\"))\r",
-									"    })\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"name\",\r\n    \"announcement\":\"Nam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortor Nam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortorNam quis nulla  Integer malesuada  In in enim a arcu imperdiet malesuada  Sed vel lectus  Donec odio urna  tempus molestie  porttitor ut  iaculis quis  sem  Phasellus rhoncus  Aenean id metus id velit ullamcorper pulvinar  Vestibulum fermentum tortor\",\r\n    \"show_announcement\":true,\r\n    \"suite_mode\":1\r\n\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/{{api}}/add_project",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"add_project"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update_project Copy",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test(\"Response time is less than 400ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"\r",
-									"pm.test(pm.iterationData.get(\"Case_update_project_name\"), function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.name).to.eql(pm.iterationData.get(\"update_name\"));\r",
-									"});\r",
-									"\r",
-									"pm.test(pm.iterationData.get(\"Case_update_announcement\"), function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.announcement).to.eql(pm.iterationData.get(\"update_announcement\"));\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(pm.iterationData.get(\"Case_update_show_announcement\"), function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(String(jsonData.show_announcement)).to.eql(pm.iterationData.get(\"change_show_announcement\"));\r",
-									"\r",
-									"});\r",
-									"\r",
-									"pm.test(pm.iterationData.get(\"Case_update_suite_mode\"), function () {\r",
-									"var jsonData = pm.response.json();\r",
-									" pm.expect(jsonData.suite_mode).to.eql(pm.iterationData.get(\"change_suite_mode\"));\r",
-									"\r",
-									"});\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"desgfd\",\r\n    \"announcement\":\"\",\r\n    \"show_announcement\":false,\r\n    \"suite_mode\": 2\r\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/{{api}}/update_project/131",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"update_project",
-								"131"
+								"get_project",
+								"1"
 							]
 						}
 					},
@@ -674,6 +556,10 @@
 		},
 		{
 			"key": "projects_number",
+			"value": ""
+		},
+		{
+			"key": "update_data",
 			"value": ""
 		}
 	]
